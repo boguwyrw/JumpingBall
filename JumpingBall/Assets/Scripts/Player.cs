@@ -10,6 +10,7 @@ public class Player : MonoBehaviour
     private float playerNormalSpeed;
     private float playerFastSpeed;
     private float playerSpeed;
+    private bool isGrounded;
 
     private void Start()
     {
@@ -19,6 +20,7 @@ public class Player : MonoBehaviour
         playerNormalSpeed = 2.0f;
         playerFastSpeed = 4.0f;
         playerSpeed = playerNormalSpeed;
+        isGrounded = false;
     }
 
     private void Update()
@@ -30,7 +32,7 @@ public class Player : MonoBehaviour
 
     private void TestingButtons()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
         {
             playerRigidbody.AddForce(Vector3.up * 6.5f, ForceMode.Impulse);
         }
@@ -48,6 +50,22 @@ public class Player : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Alpha3))
         {
             playerSpeed = playerFastSpeed;
+        }
+    }
+
+    private void OnCollisionStay(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Ground"))
+        {
+            isGrounded = true;
+        }
+    }
+
+    private void OnCollisionExit(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Ground"))
+        {
+            isGrounded = false;
         }
     }
 

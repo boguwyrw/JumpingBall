@@ -6,17 +6,19 @@ public class MovingHorizontalGround : MonoBehaviour
 {
 
     private bool groundIsMovingRight;
+    private float groundSpeed;
 
     public GameObject player;
 
     private void Start()
     {
         groundIsMovingRight = true;
+        groundSpeed = 2.5f;
     }
 
     private void Update()
     {
-        if (transform.position.x >= 44.0f)
+        if (transform.position.x >= 46.0f)
         {
             groundIsMovingRight = false;
         }
@@ -27,11 +29,11 @@ public class MovingHorizontalGround : MonoBehaviour
 
         if (groundIsMovingRight)
         {
-            transform.Translate(Vector3.right * 1.75f * Time.deltaTime);
+            transform.Translate(Vector3.right * groundSpeed * Time.deltaTime);
         }
         else
         {
-            transform.Translate(Vector3.left * 1.75f * Time.deltaTime);
+            transform.Translate(Vector3.left * groundSpeed * Time.deltaTime);
         }
     }
 }

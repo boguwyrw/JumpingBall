@@ -11,9 +11,15 @@ public class FallingGrounds : MonoBehaviour
 
     private void Start()
     {
+ 
         for (int i = 0; i < groundsList.Count; i++)
         {
             fallingGroundsRigidbody.Add(gameObject.transform.GetChild(i).GetComponent<Rigidbody>());
+        }
+
+        foreach (Rigidbody groundRigidbody in fallingGroundsRigidbody)
+        {
+            groundRigidbody.constraints = RigidbodyConstraints.FreezeAll;
         }
     }
 
@@ -22,15 +28,4 @@ public class FallingGrounds : MonoBehaviour
         
     }
 
-    private void OnCollisionEnter(Collision collision)
-    {
-        foreach (Rigidbody groundRigidbody in fallingGroundsRigidbody)
-        {
-            if (collision.gameObject.CompareTag("Player"))
-            {
-                groundRigidbody.useGravity = true;
-            }
-        }
-        
-    }
 }
