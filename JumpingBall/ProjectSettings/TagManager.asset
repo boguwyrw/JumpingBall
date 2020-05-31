@@ -10,6 +10,7 @@ TagManager:
   - CannonBulletBoundary
   - CannonBullet
   - Checkpoint
+  - RotatingEnemy
   layers:
   - Default
   - TransparentFX

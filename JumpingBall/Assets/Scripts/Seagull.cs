@@ -11,6 +11,9 @@ public class Seagull : MonoBehaviour
     private float remainingTimeToDrop;
     private float timeToDrop;
     private float seagullSpeed;
+    private float seagullDistance;
+    private float seagullStartPosition;
+    private float seagullEndPosition;
 
     public Rigidbody seagullDroppings;
 
@@ -21,6 +24,9 @@ public class Seagull : MonoBehaviour
         remainingTimeToDrop = 0.75f;
         timeToDrop = remainingTimeToDrop;
         seagullSpeed = 6.5f;
+        seagullDistance = 16.0f;
+        seagullStartPosition = transform.position.x;
+        seagullEndPosition = seagullStartPosition + seagullDistance;
     }
 
     private void Update()
@@ -31,11 +37,11 @@ public class Seagull : MonoBehaviour
 
     private void SeagullFly()
     {
-        if (transform.position.x >= 21.5f)
+        if (transform.position.x >= seagullEndPosition)
         {
             fliesRight = false;
         }
-        if (transform.position.x <= 5.5f)
+        if (transform.position.x <= seagullStartPosition)
         {
             fliesRight = true;
         }

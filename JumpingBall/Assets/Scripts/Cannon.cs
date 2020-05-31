@@ -15,7 +15,7 @@ public class Cannon : MonoBehaviour
     private void Start()
     {
         cannonBulletSpeed = 700.0f;
-        remainingTimeToShot = 2.25f;
+        remainingTimeToShot = 2.5f;
         timeToShot = remainingTimeToShot;
     }
 

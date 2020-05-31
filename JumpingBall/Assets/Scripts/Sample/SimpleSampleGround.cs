@@ -19,17 +19,19 @@ public class SimpleSampleGround : MonoBehaviour
     void Update()
     {
         /*
-        fallingTime = fallingTime - Time.deltaTime;
-        
-        if (fallingTime <= 0.0f)
+        if (Input.GetKeyDown(KeyCode.F))
         {
-            fallingTime = 3.0f;
+            fallingTime = fallingTime - Time.deltaTime;
+            if (fallingTime <= 0.0f)
+            {
+                fallingTime = 0.17f;
+                simpleRigidbody.constraints = RigidbodyConstraints.None;
+                simpleRigidbody.useGravity = true;
+            }
         }
-
-        Debug.Log(fallingTime.ToString("F2"));
         */
     }
-
+    /*
     private void OnCollisionStay(Collision collision)
     {
         if (collision.gameObject.CompareTag("Player"))
@@ -43,5 +45,5 @@ public class SimpleSampleGround : MonoBehaviour
             } 
         }
     }
-
+    */
 }

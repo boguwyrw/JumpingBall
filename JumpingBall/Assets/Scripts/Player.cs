@@ -79,6 +79,14 @@ public class Player : MonoBehaviour
         }
     }
 
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("RotatingEnemy"))
+        { 
+            
+        }
+    }
+
     public Vector3 GetCurrentCheckpointPosition()
     {
         return currentCheckpointPosition;

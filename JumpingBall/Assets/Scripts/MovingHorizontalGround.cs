@@ -7,6 +7,9 @@ public class MovingHorizontalGround : MonoBehaviour
 
     private bool groundIsMovingRight;
     private float groundSpeed;
+    private float groundMovingDistance;
+    private float groundStartPosition;
+    private float groundEndPosition;
 
     public GameObject player;
 
@@ -14,15 +17,18 @@ public class MovingHorizontalGround : MonoBehaviour
     {
         groundIsMovingRight = true;
         groundSpeed = 2.5f;
+        groundMovingDistance = 7.0f;
+        groundStartPosition = transform.position.x;
+        groundEndPosition = groundStartPosition + groundMovingDistance;
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
-        if (transform.position.x >= 46.0f)
+        if (transform.position.x >= groundEndPosition)
         {
             groundIsMovingRight = false;
         }
-        if (transform.position.x <= 39.0f)
+        if (transform.position.x <= groundStartPosition)
         {
             groundIsMovingRight = true;
         }

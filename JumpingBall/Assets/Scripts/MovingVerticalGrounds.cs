@@ -25,7 +25,7 @@ public class MovingVerticalGrounds : MonoBehaviour
         groundMovingUp = true;
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
         GroundsMovingVertical();
     }
