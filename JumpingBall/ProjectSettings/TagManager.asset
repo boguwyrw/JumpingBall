@@ -5,6 +5,11 @@ TagManager:
   serializedVersion: 2
   tags:
   - Ground
+  - SeagullDroppings
+  - GameBoundary
+  - CannonBulletBoundary
+  - CannonBullet
+  - Checkpoint
   layers:
   - Default
   - TransparentFX

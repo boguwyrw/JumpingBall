@@ -11,6 +11,7 @@ public class Player : MonoBehaviour
     private float playerFastSpeed;
     private float playerSpeed;
     private bool isGrounded;
+    private Vector3 currentCheckpointPosition;
 
     private void Start()
     {
@@ -21,6 +22,7 @@ public class Player : MonoBehaviour
         playerFastSpeed = 4.0f;
         playerSpeed = playerNormalSpeed;
         isGrounded = false;
+        currentCheckpointPosition = new Vector3(-0.5f, 0.5f, 0.0f);
     }
 
     private void Update()
@@ -34,7 +36,7 @@ public class Player : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
         {
-            playerRigidbody.AddForce(Vector3.up * 6.5f, ForceMode.Impulse);
+            playerRigidbody.AddForce(Vector3.up * 6.75f, ForceMode.Impulse);
         }
 
         if (Input.GetKeyDown(KeyCode.Alpha1))
@@ -67,6 +69,19 @@ public class Player : MonoBehaviour
         {
             isGrounded = false;
         }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.CompareTag("Checkpoint"))
+        {
+            currentCheckpointPosition = other.transform.GetChild(2).position;
+        }
+    }
+
+    public Vector3 GetCurrentCheckpointPosition()
+    {
+        return currentCheckpointPosition;
     }
 
 }
