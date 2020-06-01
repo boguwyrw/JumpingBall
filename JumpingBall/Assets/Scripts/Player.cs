@@ -16,7 +16,7 @@ public class Player : MonoBehaviour
     private void Start()
     {
         playerRigidbody = GetComponent<Rigidbody>();
-        playerRigidbody.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ;
+        playerRigidbody.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ | RigidbodyConstraints.FreezePositionZ;
         playerSlowSpeed = 1.0f;
         playerNormalSpeed = 2.0f;
         playerFastSpeed = 4.0f;
@@ -53,6 +53,12 @@ public class Player : MonoBehaviour
         {
             playerSpeed = playerFastSpeed;
         }
+        /*
+        if (Input.GetKeyDown(KeyCode.Alpha0))
+        {
+            playerSpeed = 0;
+        }
+        */
     }
 
     private void OnCollisionStay(Collision collision)

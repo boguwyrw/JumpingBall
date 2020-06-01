@@ -9,7 +9,7 @@ public class MovingVerticalGrounds : MonoBehaviour
     private float verticalNormalSpeed;
     private float verticalFastSpeed;
     private List<GameObject> movingVerticalGroundsList = new List<GameObject>();
-    private bool groundMovingUp;
+    private List<bool> groundMovingUpList = new List<bool>();
 
     private void Start()
     {
@@ -22,7 +22,10 @@ public class MovingVerticalGrounds : MonoBehaviour
             movingVerticalGroundsList.Add(transform.GetChild(i).gameObject);
         }
 
-        groundMovingUp = true;
+        for (int i = 0; i < transform.childCount; i++)
+        {
+            groundMovingUpList.Add(true);
+        }
     }
 
     private void FixedUpdate()
@@ -32,29 +35,46 @@ public class MovingVerticalGrounds : MonoBehaviour
 
     private void GroundsMovingVertical()
     {
-        foreach (GameObject movingVerticalGround in movingVerticalGroundsList)
+        for (int i = 0; i < movingVerticalGroundsList.Count; i++)
         {
-            if (movingVerticalGround.transform.localPosition.y >= 12.0f)
+            if (movingVerticalGroundsList[i].transform.localPosition.y >= 12)
             {
-                groundMovingUp = false;
+                groundMovingUpList[i] = false;
             }
-            if (movingVerticalGround.transform.localPosition.y <= -6.0f)
+            if (movingVerticalGroundsList[i].transform.localPosition.y <= -6)
             {
-                groundMovingUp = true;
+                groundMovingUpList[i] = true;
             }
         }
 
-        if (groundMovingUp)
+        for (int i = 0; i < movingVerticalGroundsList.Count; i++)
         {
-            transform.GetChild(0).Translate(Vector3.up * verticalSlowSpeed * Time.deltaTime);
-            transform.GetChild(1).Translate(Vector3.up * verticalFastSpeed * Time.deltaTime);
-            transform.GetChild(2).Translate(Vector3.up * verticalNormalSpeed * Time.deltaTime);
-        }
-        else
-        {
-            transform.GetChild(0).Translate(Vector3.down * verticalSlowSpeed * Time.deltaTime);
-            transform.GetChild(1).Translate(Vector3.down * verticalFastSpeed * Time.deltaTime);
-            transform.GetChild(2).Translate(Vector3.down * verticalNormalSpeed * Time.deltaTime);
+            if (groundMovingUpList[i].Equals(true))
+            {
+                if (i == 0)
+                {
+                    transform.GetChild(0).Translate(Vector3.up * verticalSlowSpeed * Time.deltaTime);
+                }
+                if (i == 1)
+                {
+                    transform.GetChild(1).Translate(Vector3.up * verticalFastSpeed * Time.deltaTime);
+                }
+                if (i == 2)
+                {
+                    transform.GetChild(2).Translate(Vector3.up * verticalNormalSpeed * Time.deltaTime);
+                } 
+            }
+            else
+            {
+                if (i == 0)
+                    transform.GetChild(0).Translate(Vector3.down * verticalSlowSpeed * Time.deltaTime);
+
+                if (i == 1)
+                    transform.GetChild(1).Translate(Vector3.down * verticalFastSpeed * Time.deltaTime);
+
+                if (i == 2)
+                    transform.GetChild(2).Translate(Vector3.down * verticalNormalSpeed * Time.deltaTime);
+            }
         }
     }
 

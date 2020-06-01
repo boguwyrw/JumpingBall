@@ -11,7 +11,7 @@ public class JumpingEnemy : MonoBehaviour
     private void Start()
     {
         jumpingEnemyRigidbody = GetComponent<Rigidbody>();
-        jumpingEnemyRigidbody.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ;
+        jumpingEnemyRigidbody.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ | RigidbodyConstraints.FreezePositionZ;
         isGrounded = true;
     }
 
@@ -19,7 +19,8 @@ public class JumpingEnemy : MonoBehaviour
     {
         if (isGrounded)
         {
-            jumpingEnemyRigidbody.AddForce(Vector3.up * 2.75f, ForceMode.Impulse);
+            float jumpForce = Random.Range(1.75f, 3.25f);
+            jumpingEnemyRigidbody.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
         }
     }
 
