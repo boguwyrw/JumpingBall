@@ -11,6 +11,8 @@ TagManager:
   - CannonBullet
   - Checkpoint
   - RotatingEnemy
+  - JumpingEnemy
+  - MovingEnemy
   layers:
   - Default
   - TransparentFX

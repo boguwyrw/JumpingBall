@@ -10,8 +10,11 @@ public class Player : MonoBehaviour
     private float playerNormalSpeed;
     private float playerFastSpeed;
     private float playerSpeed;
+    private float playerJumpForce;
     private bool isGrounded;
     private Vector3 currentCheckpointPosition;
+    private bool playerFinishedGame;
+    private Finish finish;
 
     private void Start()
     {
@@ -21,22 +24,34 @@ public class Player : MonoBehaviour
         playerNormalSpeed = 2.0f;
         playerFastSpeed = 4.0f;
         playerSpeed = playerNormalSpeed;
+        playerJumpForce = 6.8f;
         isGrounded = false;
         currentCheckpointPosition = new Vector3(-0.5f, 0.5f, 0.0f);
+        playerFinishedGame = false;
+        finish = FindObjectOfType<Finish>();
     }
 
     private void Update()
     {
+        playerFinishedGame = finish.GetPlayerFinished();
+        if (playerFinishedGame)
+        {
+            playerSpeed -= Time.deltaTime * 2;
+            if (playerSpeed <= 0.0f)
+            {
+                playerSpeed = 0.0f;
+            }
+        }
         transform.Translate(Vector3.right * playerSpeed * Time.deltaTime);
-
-        TestingButtons();
+        
+        //TestingButtons();
     }
 
     private void TestingButtons()
     {
         if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
         {
-            playerRigidbody.AddForce(Vector3.up * 6.75f, ForceMode.Impulse);
+            playerRigidbody.AddForce(Vector3.up * playerJumpForce, ForceMode.Impulse);
         }
 
         if (Input.GetKeyDown(KeyCode.Alpha1))
@@ -96,6 +111,30 @@ public class Player : MonoBehaviour
     public Vector3 GetCurrentCheckpointPosition()
     {
         return currentCheckpointPosition;
+    }
+
+    // UI Buttons
+    public void JumpButton()
+    {
+        if (isGrounded)
+        {
+            playerRigidbody.AddForce(Vector3.up * playerJumpForce, ForceMode.Impulse);
+        }
+    }
+
+    public void PlayerSlowSpeed()
+    {
+        playerSpeed = playerSlowSpeed;
+    }
+
+    public void PlayerNormalSpeed()
+    {
+        playerSpeed = playerNormalSpeed;
+    }
+
+    public void PlayerFastSpeed()
+    {
+        playerSpeed = playerFastSpeed;
     }
 
 }
