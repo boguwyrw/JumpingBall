@@ -15,6 +15,7 @@ public class Player : MonoBehaviour
     private Vector3 currentCheckpointPosition;
     private bool playerFinishedGame;
     private Finish finish;
+    private Touch touch;
 
     private void Start()
     {
