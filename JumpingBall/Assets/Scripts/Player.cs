@@ -15,7 +15,7 @@ public class Player : MonoBehaviour
     private Vector3 currentCheckpointPosition;
     private bool playerFinishedGame;
     private Finish finish;
-    private Touch touch;
+    private int healthPoints;
 
     private void Start()
     {
@@ -30,6 +30,7 @@ public class Player : MonoBehaviour
         currentCheckpointPosition = new Vector3(-0.5f, 0.5f, 0.0f);
         playerFinishedGame = false;
         finish = FindObjectOfType<Finish>();
+        healthPoints = 100;
     }
 
     private void Update()
@@ -44,8 +45,13 @@ public class Player : MonoBehaviour
             }
         }
         transform.Translate(Vector3.right * playerSpeed * Time.deltaTime);
-        
-        //TestingButtons();
+
+        if (healthPoints >= 100)
+        {
+            healthPoints = 100;
+        }
+
+        TestingButtons();
     }
 
     private void TestingButtons()
@@ -99,19 +105,33 @@ public class Player : MonoBehaviour
         {
             currentCheckpointPosition = other.transform.GetChild(2).position;
         }
+ 
+        if (other.gameObject.CompareTag("Heart"))
+        {
+            healthPoints = healthPoints + 25;
+        }
     }
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.CompareTag("RotatingEnemy"))
-        { 
-            
+        if (collision.gameObject.CompareTag("RotatingEnemy") || collision.gameObject.CompareTag("JumpingEnemy") || collision.gameObject.CompareTag("MovingEnemy"))
+        {
+            healthPoints = healthPoints - 25;
+        }
+        if (collision.gameObject.CompareTag("SeagullDroppings") || collision.gameObject.CompareTag("CannonBullet"))
+        {
+            healthPoints = healthPoints - 20;
         }
     }
 
     public Vector3 GetCurrentCheckpointPosition()
     {
         return currentCheckpointPosition;
+    }
+
+    public int GetHealthPoints()
+    {
+        return healthPoints;
     }
 
     // UI Buttons

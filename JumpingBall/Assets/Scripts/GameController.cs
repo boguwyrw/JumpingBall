@@ -9,6 +9,13 @@ public class GameController : MonoBehaviour
 
     private float widthDivider = 6.5f;
     private float heightDivider = 6.5f;
+    private int playerHealthPoints;
+    private Player player;
+
+    public Slider healthSlider;
+    public Image healthFill;
+    public Image healthBackground;
+    public Image healthHandle;
 
     public Button startButton;
     public Button jumpButton;
@@ -22,6 +29,13 @@ public class GameController : MonoBehaviour
     private void Start()
     {
         Time.timeScale = 0;
+        playerHealthPoints = 0;
+        player = FindObjectOfType<Player>();
+
+        healthSlider.transform.position = new Vector3(0.2f * Screen.width, 0.95f * Screen.height, 0.0f);
+        healthFill.color = new Color(255, 255, 0);
+        healthBackground.color = new Color(255, 0, 0);
+        healthHandle.color = new Color(255, 255, 0);
 
         startButton.image.rectTransform.sizeDelta = new Vector2(Screen.width / widthDivider, Screen.height / heightDivider);
         startButton.transform.GetChild(0).GetComponent<Text>().fontSize = Screen.height / 18;
@@ -65,6 +79,9 @@ public class GameController : MonoBehaviour
 
     private void Update()
     {
+        playerHealthPoints = player.GetHealthPoints();
+        healthSlider.value = playerHealthPoints;
+
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             Application.Quit();

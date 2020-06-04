@@ -13,6 +13,7 @@ TagManager:
   - RotatingEnemy
   - JumpingEnemy
   - MovingEnemy
+  - Heart
   layers:
   - Default
   - TransparentFX
