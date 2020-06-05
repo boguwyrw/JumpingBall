@@ -48,6 +48,7 @@ public class Player : MonoBehaviour
                 playerSpeed = 0.0f;
             }
         }
+
         transform.Translate(Vector3.right * playerSpeed * Time.deltaTime);
 
         if (healthPoints >= 100)

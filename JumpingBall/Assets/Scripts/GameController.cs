@@ -11,8 +11,10 @@ public class GameController : MonoBehaviour
     private float heightDivider = 6.5f;
     private int playerHealthPoints;
     private int playerLives;
-    private bool playerFinishGame;
+    private bool gameOver;
     private Player player;
+    private bool playerFinishGame;
+    private Finish finish;
 
     public Text livesText;
     public Slider healthSlider;
@@ -36,8 +38,10 @@ public class GameController : MonoBehaviour
         Time.timeScale = 0;
         playerHealthPoints = 0;
         playerLives = 0;
-        playerFinishGame = false;
+        gameOver = false;
         player = FindObjectOfType<Player>();
+        playerFinishGame = false;
+        finish = FindObjectOfType<Finish>();
 
         livesText.transform.position = new Vector3(0.06f * Screen.width, 0.95f * Screen.height, 0.0f);
         livesText.fontSize = Screen.height / 25;
@@ -95,13 +99,23 @@ public class GameController : MonoBehaviour
     {
         playerHealthPoints = player.GetHealthPoints();
         playerLives = player.GetNumberOfLives();
-        playerFinishGame = player.GetGameOver();
+        gameOver = player.GetGameOver();
         healthSlider.value = playerHealthPoints;
         livesText.text = "Lives: " + playerLives.ToString();
-        if (playerFinishGame)
+        if (gameOver)
         {
             gameOverText.gameObject.SetActive(true);
             Time.timeScale = 0;
+        }
+
+        playerFinishGame = finish.GetPlayerFinished();
+        if (playerFinishGame)
+        {
+            slowSpeedButton.gameObject.SetActive(false);
+            normalSpeedButton.gameObject.SetActive(false);
+            fastSpeedButton.gameObject.SetActive(false);
+            jumpButton.gameObject.SetActive(false);
+            resumeButton.interactable = false;
         }
 
         if (Input.GetKeyDown(KeyCode.Escape))
@@ -124,7 +138,7 @@ public class GameController : MonoBehaviour
     public void X_GameButton()
     {
         Time.timeScale = 0;
-        if (playerFinishGame)
+        if (gameOver)
         {
             resumeButton.interactable = false;
         }
