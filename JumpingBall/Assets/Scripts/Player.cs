@@ -16,6 +16,8 @@ public class Player : MonoBehaviour
     private bool playerFinishedGame;
     private Finish finish;
     private int healthPoints;
+    private int numberOfLives;
+    private bool gameOver;
 
     private void Start()
     {
@@ -31,6 +33,8 @@ public class Player : MonoBehaviour
         playerFinishedGame = false;
         finish = FindObjectOfType<Finish>();
         healthPoints = 100;
+        numberOfLives = 5;
+        gameOver = false;
     }
 
     private void Update()
@@ -51,7 +55,18 @@ public class Player : MonoBehaviour
             healthPoints = 100;
         }
 
-        TestingButtons();
+        if (healthPoints <= 0)
+        {
+            healthPoints = 100;
+            numberOfLives = numberOfLives - 1;
+        }
+
+        if (numberOfLives == 0)
+        {
+            gameOver = true;
+        }
+
+        //TestingButtons();
     }
 
     private void TestingButtons()
@@ -75,12 +90,6 @@ public class Player : MonoBehaviour
         {
             playerSpeed = playerFastSpeed;
         }
-        /*
-        if (Input.GetKeyDown(KeyCode.Alpha0))
-        {
-            playerSpeed = 0;
-        }
-        */
     }
 
     private void OnCollisionStay(Collision collision)
@@ -122,6 +131,10 @@ public class Player : MonoBehaviour
         {
             healthPoints = healthPoints - 20;
         }
+        if (collision.gameObject.CompareTag("GameBoundary"))
+        {
+            numberOfLives = numberOfLives - 1;
+        }
     }
 
     public Vector3 GetCurrentCheckpointPosition()
@@ -132,6 +145,16 @@ public class Player : MonoBehaviour
     public int GetHealthPoints()
     {
         return healthPoints;
+    }
+
+    public int GetNumberOfLives()
+    {
+        return numberOfLives;
+    }
+
+    public bool GetGameOver()
+    {
+        return gameOver;
     }
 
     // UI Buttons

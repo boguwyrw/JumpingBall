@@ -10,8 +10,11 @@ public class GameController : MonoBehaviour
     private float widthDivider = 6.5f;
     private float heightDivider = 6.5f;
     private int playerHealthPoints;
+    private int playerLives;
+    private bool playerFinishGame;
     private Player player;
 
+    public Text livesText;
     public Slider healthSlider;
     public Image healthFill;
     public Image healthBackground;
@@ -26,13 +29,21 @@ public class GameController : MonoBehaviour
     public Button resumeButton;
     public Button quitButton;
 
+    public Text gameOverText;
+
     private void Start()
     {
         Time.timeScale = 0;
         playerHealthPoints = 0;
+        playerLives = 0;
+        playerFinishGame = false;
         player = FindObjectOfType<Player>();
 
-        healthSlider.transform.position = new Vector3(0.2f * Screen.width, 0.95f * Screen.height, 0.0f);
+        livesText.transform.position = new Vector3(0.06f * Screen.width, 0.95f * Screen.height, 0.0f);
+        livesText.fontSize = Screen.height / 25;
+
+        healthSlider.transform.position = new Vector3(0.075f * Screen.width, 0.85f * Screen.height, 0.0f);
+        healthSlider.transform.GetChild(0).GetComponent<Text>().fontSize = Screen.height / 25;
         healthFill.color = new Color(255, 255, 0);
         healthBackground.color = new Color(255, 0, 0);
         healthHandle.color = new Color(255, 255, 0);
@@ -75,12 +86,23 @@ public class GameController : MonoBehaviour
         quitButton.image.rectTransform.sizeDelta = new Vector2(Screen.width / widthDivider, Screen.height / heightDivider);
         quitButton.transform.GetChild(0).GetComponent<Text>().fontSize = Screen.height / 18;
         quitButton.transform.position = new Vector3(0.5f * Screen.width, 0.4f * Screen.height, 0.0f);
+
+        gameOverText.gameObject.SetActive(false);
+        gameOverText.fontSize = Screen.height / 18;
     }
 
     private void Update()
     {
         playerHealthPoints = player.GetHealthPoints();
+        playerLives = player.GetNumberOfLives();
+        playerFinishGame = player.GetGameOver();
         healthSlider.value = playerHealthPoints;
+        livesText.text = "Lives: " + playerLives.ToString();
+        if (playerFinishGame)
+        {
+            gameOverText.gameObject.SetActive(true);
+            Time.timeScale = 0;
+        }
 
         if (Input.GetKeyDown(KeyCode.Escape))
         {
@@ -102,6 +124,14 @@ public class GameController : MonoBehaviour
     public void X_GameButton()
     {
         Time.timeScale = 0;
+        if (playerFinishGame)
+        {
+            resumeButton.interactable = false;
+        }
+        else
+        {
+            resumeButton.interactable = true;
+        }
         resumeButton.gameObject.SetActive(true);
         quitButton.gameObject.SetActive(true);
         jumpButton.interactable = false;
