@@ -18,6 +18,8 @@ public class Player : MonoBehaviour
     private int healthPoints;
     private int numberOfLives;
     private bool gameOver;
+    // Music
+    private AudioSource audioSource;
 
     private void Start()
     {
@@ -35,6 +37,8 @@ public class Player : MonoBehaviour
         healthPoints = 100;
         numberOfLives = 5;
         gameOver = false;
+        // Music
+        audioSource = GetComponent<AudioSource>();
     }
 
     private void Update()
@@ -65,6 +69,7 @@ public class Player : MonoBehaviour
         if (numberOfLives == 0)
         {
             gameOver = true;
+            audioSource.Stop();
         }
 
         //TestingButtons();
