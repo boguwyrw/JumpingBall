@@ -20,6 +20,8 @@ public class Player : MonoBehaviour
     private bool gameOver;
     // Music
     private AudioSource audioSource;
+    private bool playGameOverMusic;
+    public AudioClip[] audioClipsArray;
 
     private void Start()
     {
@@ -39,6 +41,8 @@ public class Player : MonoBehaviour
         gameOver = false;
         // Music
         audioSource = GetComponent<AudioSource>();
+        playGameOverMusic = false;
+        audioSource.clip = audioClipsArray[0];
     }
 
     private void Update()
@@ -69,9 +73,30 @@ public class Player : MonoBehaviour
         if (numberOfLives == 0)
         {
             gameOver = true;
-            audioSource.Stop();
+            //audioSource.Stop();
+            playGameOverMusic = true;
         }
+        
+        if (playGameOverMusic)
+        {
+            audioSource.clip = audioClipsArray[1];
+            audioSource.loop = false;
+            float clipLength = audioClipsArray[1].length;
+            clipLength = clipLength - Time.deltaTime;
+            if (clipLength >= 0.0f)
+            {
+                audioSource.PlayOneShot(audioSource.clip);
+            }
+            else
+            {
+                audioSource.Stop();
+            }
+            playGameOverMusic = false;
 
+            playerRigidbody.constraints = RigidbodyConstraints.FreezeAll;
+            playerSpeed = 0;
+        }
+        
         //TestingButtons();
     }
 
@@ -185,6 +210,11 @@ public class Player : MonoBehaviour
     public void PlayerFastSpeed()
     {
         playerSpeed = playerFastSpeed;
+    }
+
+    public void StartPlayGameMusic()
+    {
+        audioSource.PlayOneShot(audioSource.clip);
     }
 
 }

@@ -669,6 +669,17 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 1935464961}
+        m_MethodName: StartPlayGameMusic
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &75705236
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19183,6 +19194,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65add5e148d723848a11e452e3ae06ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  audioClipsArray:
+  - {fileID: 8300000, guid: 47d2925c298d00e48a78139899764797, type: 3}
+  - {fileID: 8300000, guid: a8d0d66a24d1d87489e68a2d81f879ec, type: 3}
+  - {fileID: 8300000, guid: 2694a44ac41216941a69749c5daf3912, type: 3}
 --- !u!54 &1935464962
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -19209,8 +19224,8 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 47d2925c298d00e48a78139899764797, type: 3}
-  m_PlayOnAwake: 1
+  m_audioClip: {fileID: 0}
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 1

@@ -105,7 +105,7 @@ public class GameController : MonoBehaviour
         if (gameOver)
         {
             gameOverText.gameObject.SetActive(true);
-            Time.timeScale = 0;
+            //Time.timeScale = 0;
         }
 
         playerFinishGame = finish.GetPlayerFinished();
