@@ -20,8 +20,17 @@ public class Player : MonoBehaviour
     private bool gameOver;
     // Music
     private AudioSource audioSource;
-    private bool playGameOverMusic;
+    private bool playSound;
+    private int clipNumber;
     public AudioClip[] audioClipsArray;
+
+    private void Awake()
+    {
+        // Music
+        audioSource = GetComponent<AudioSource>();
+        playSound = false;
+        clipNumber = 0;
+    }
 
     private void Start()
     {
@@ -39,10 +48,6 @@ public class Player : MonoBehaviour
         healthPoints = 100;
         numberOfLives = 5;
         gameOver = false;
-        // Music
-        audioSource = GetComponent<AudioSource>();
-        playGameOverMusic = false;
-        audioSource.clip = audioClipsArray[0];
     }
 
     private void Update()
@@ -50,6 +55,10 @@ public class Player : MonoBehaviour
         playerFinishedGame = finish.GetPlayerFinished();
         if (playerFinishedGame)
         {
+            // Music
+            playSound = true;
+            clipNumber = 2;
+            // Finish Game
             playerSpeed -= Time.deltaTime * 2;
             if (playerSpeed <= 0.0f)
             {
@@ -73,30 +82,31 @@ public class Player : MonoBehaviour
         if (numberOfLives == 0)
         {
             gameOver = true;
-            //audioSource.Stop();
-            playGameOverMusic = true;
+            // Music
+            playSound = true;
+            clipNumber = 1;
         }
-        
-        if (playGameOverMusic)
-        {
-            audioSource.clip = audioClipsArray[1];
-            audioSource.loop = false;
-            float clipLength = audioClipsArray[1].length;
-            clipLength = clipLength - Time.deltaTime;
-            if (clipLength >= 0.0f)
-            {
-                audioSource.PlayOneShot(audioSource.clip);
-            }
-            else
-            {
-                audioSource.Stop();
-            }
-            playGameOverMusic = false;
 
+        if (gameOver)
+        {
             playerRigidbody.constraints = RigidbodyConstraints.FreezeAll;
             playerSpeed = 0;
         }
-        
+
+        // Music
+        /*
+        if (Input.GetKeyDown(KeyCode.N))
+        {
+            playSound = true;
+            clipNumber++;
+            if (clipNumber >= audioClipsArray.Length)
+            {
+                clipNumber = 0;
+            }
+        }
+        */
+        PlayGameSounds();
+
         //TestingButtons();
     }
 
@@ -120,6 +130,16 @@ public class Player : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Alpha3))
         {
             playerSpeed = playerFastSpeed;
+        }
+    }
+
+    private void PlayGameSounds()
+    {
+        if (playSound)
+        {
+            audioSource.clip = audioClipsArray[clipNumber];
+            audioSource.Play();
+            playSound = false;
         }
     }
 
@@ -214,7 +234,7 @@ public class Player : MonoBehaviour
 
     public void StartPlayGameMusic()
     {
-        audioSource.PlayOneShot(audioSource.clip);
+        playSound = true;
     }
 
 }

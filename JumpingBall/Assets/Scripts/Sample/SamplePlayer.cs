@@ -22,6 +22,7 @@ public class SamplePlayer : MonoBehaviour
 
     private void Update()
     {
+
         if (Input.GetKeyDown(KeyCode.N))
         {
             playSound = true;
@@ -32,25 +33,15 @@ public class SamplePlayer : MonoBehaviour
             }
         }
 
+        PlayGameSounds(clipNumber);
+        /*
         if (playSound)
         {
             audioSource.clip = audioClips[clipNumber];
-            float clipLength = audioClips[clipNumber].length;
-            clipLength = clipLength - Time.deltaTime;
-            Debug.Log(clipLength.ToString());
-            if (clipLength >= 0.0f)
-            {
-                //audioSource.PlayOneShot(audioSource.clip);
-                audioSource.Play();
-            }
-            else
-            {
-                audioSource.Stop();
-            }
-
+            audioSource.Play();
             playSound = false;
         }
-        
+        */
 
         //transform.Translate(Vector3.right * 4 * Time.deltaTime);
 
@@ -59,4 +50,15 @@ public class SamplePlayer : MonoBehaviour
             samplePlayerRigidbody.AddForce(Vector3.up * 6.5f, ForceMode.Impulse);
         }
     }
+
+    private void PlayGameSounds(int songNo)
+    {
+        if (playSound)
+        {
+            audioSource.clip = audioClips[songNo];
+            audioSource.Play();
+            playSound = false;
+        }
+    }
+
 }
