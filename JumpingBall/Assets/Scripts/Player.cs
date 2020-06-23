@@ -23,6 +23,7 @@ public class Player : MonoBehaviour
     private bool playSound;
     private int clipNumber;
     public AudioClip[] audioClipsArray;
+    public GameObject gameOverSensor;
 
     private void Awake()
     {
@@ -48,17 +49,17 @@ public class Player : MonoBehaviour
         healthPoints = 100;
         numberOfLives = 5;
         gameOver = false;
+        gameOverSensor.SetActive(false);
+        SensorCurrentPosition();
     }
 
     private void Update()
     {
+        SensorCurrentPosition();
+
         playerFinishedGame = finish.GetPlayerFinished();
         if (playerFinishedGame)
         {
-            // Music
-            playSound = true;
-            clipNumber = 2;
-            // Finish Game
             playerSpeed -= Time.deltaTime * 2;
             if (playerSpeed <= 0.0f)
             {
@@ -82,11 +83,9 @@ public class Player : MonoBehaviour
         if (numberOfLives == 0)
         {
             gameOver = true;
-            // Music
-            playSound = true;
-            clipNumber = 1;
+            gameOverSensor.SetActive(true);
         }
-
+        
         if (gameOver)
         {
             playerRigidbody.constraints = RigidbodyConstraints.FreezeAll;
@@ -94,17 +93,6 @@ public class Player : MonoBehaviour
         }
 
         // Music
-        /*
-        if (Input.GetKeyDown(KeyCode.N))
-        {
-            playSound = true;
-            clipNumber++;
-            if (clipNumber >= audioClipsArray.Length)
-            {
-                clipNumber = 0;
-            }
-        }
-        */
         PlayGameSounds();
 
         //TestingButtons();
@@ -143,6 +131,27 @@ public class Player : MonoBehaviour
         }
     }
 
+    private void SensorCurrentPosition()
+    {
+        gameOverSensor.transform.position = transform.position;
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("RotatingEnemy") || collision.gameObject.CompareTag("JumpingEnemy") || collision.gameObject.CompareTag("MovingEnemy"))
+        {
+            healthPoints = healthPoints - 25;
+        }
+        if (collision.gameObject.CompareTag("SeagullDroppings") || collision.gameObject.CompareTag("CannonBullet"))
+        {
+            healthPoints = healthPoints - 20;
+        }
+        if (collision.gameObject.CompareTag("GameBoundary"))
+        {
+            numberOfLives = numberOfLives - 1;
+        }
+    }
+
     private void OnCollisionStay(Collision collision)
     {
         if (collision.gameObject.CompareTag("Ground"))
@@ -170,21 +179,23 @@ public class Player : MonoBehaviour
         {
             healthPoints = healthPoints + 25;
         }
-    }
 
-    private void OnCollisionEnter(Collision collision)
-    {
-        if (collision.gameObject.CompareTag("RotatingEnemy") || collision.gameObject.CompareTag("JumpingEnemy") || collision.gameObject.CompareTag("MovingEnemy"))
+        if (other.gameObject.CompareTag("Sensor"))
         {
-            healthPoints = healthPoints - 25;
+            audioSource.Stop();
+            audioSource.loop = false;
+            clipNumber = 1;
+            audioSource.clip = audioClipsArray[clipNumber];
+            audioSource.Play();
         }
-        if (collision.gameObject.CompareTag("SeagullDroppings") || collision.gameObject.CompareTag("CannonBullet"))
+
+        if (other.gameObject.CompareTag("FinishSensor"))
         {
-            healthPoints = healthPoints - 20;
-        }
-        if (collision.gameObject.CompareTag("GameBoundary"))
-        {
-            numberOfLives = numberOfLives - 1;
+            audioSource.Stop();
+            audioSource.loop = false;
+            clipNumber = 2;
+            audioSource.clip = audioClipsArray[clipNumber];
+            audioSource.Play();
         }
     }
 

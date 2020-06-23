@@ -9,6 +9,7 @@ public class SamplePlayer : MonoBehaviour
     private AudioSource audioSource;
     private bool playSound;
     private int clipNumber;
+    private int testNumber;
     public AudioClip[] audioClips;
 
     private void Start()
@@ -18,6 +19,7 @@ public class SamplePlayer : MonoBehaviour
         audioSource = GetComponent<AudioSource>();
         playSound = false;
         clipNumber = 0;
+        testNumber = 5;
     }
 
     private void Update()
@@ -25,8 +27,13 @@ public class SamplePlayer : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.N))
         {
+            testNumber--;
+        }
+
+        if (testNumber == 0)
+        {
             playSound = true;
-            clipNumber++;
+            clipNumber = 2;
             if (clipNumber >= audioClips.Length)
             {
                 clipNumber = 0;
@@ -56,7 +63,7 @@ public class SamplePlayer : MonoBehaviour
         if (playSound)
         {
             audioSource.clip = audioClips[songNo];
-            audioSource.Play();
+            audioSource.PlayOneShot(audioSource.clip);
             playSound = false;
         }
     }

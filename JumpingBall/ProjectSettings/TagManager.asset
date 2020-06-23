@@ -14,6 +14,8 @@ TagManager:
   - JumpingEnemy
   - MovingEnemy
   - Heart
+  - Sensor
+  - FinishSensor
   layers:
   - Default
   - TransparentFX
