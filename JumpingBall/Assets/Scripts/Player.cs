@@ -97,7 +97,7 @@ public class Player : MonoBehaviour
 
         //TestingButtons();
     }
-
+    /*
     private void TestingButtons()
     {
         if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
@@ -120,7 +120,7 @@ public class Player : MonoBehaviour
             playerSpeed = playerFastSpeed;
         }
     }
-
+    */
     private void PlayGameSounds()
     {
         if (playSound)
